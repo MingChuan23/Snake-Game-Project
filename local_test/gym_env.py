@@ -6,12 +6,12 @@ import itertools
 
 
 MAX_STEPS = 50
-INIT_HP = 10
+INIT_HP = 20
 
 reward_map = {
-    SnakeState.OK: 0,
+    SnakeState.OK: -1,
     SnakeState.ATE: 5,
-    SnakeState.DED: -10,
+    SnakeState.DED: -1000,
     SnakeState.WON: 1
 }
 
