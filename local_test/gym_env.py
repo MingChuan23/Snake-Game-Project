@@ -14,7 +14,7 @@ MAX_FRUITS = 10
 
 # Rewards
 reward_map = {
-    SnakeState.OK: -0.1,
+    SnakeState.OK: -0.3,
     SnakeState.ATE: 20,
     SnakeState.DED: -10,
     SnakeState.WON: 1
