@@ -29,6 +29,8 @@ model = PPO('MultiInputPolicy', env, verbose=True, device='cuda', tensorboard_lo
 # # model = PPO.load("ppo_snake", env=env, device="cuda", tensorboard_log=log_dir)
 
 
-for i in range(10):
-    model.learn(100000, progress_bar=True, tb_log_name="PPO-3.1326", reset_num_timesteps=False)
-    model.save('ppo_snake3.1326.zip')
+# for i in range(10):
+#     model.learn(100000, progress_bar=True, tb_log_name="PPO-3.2", reset_num_timesteps=False)
+#     model.save('ppo_snake3.2.zip')
+
+model.learn(100000, progress_bar=True, tb_log_name="test", reset_num_timesteps=False)
