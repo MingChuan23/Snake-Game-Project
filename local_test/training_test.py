@@ -25,7 +25,7 @@ vec_env = make_vec_env(lambda: SnakeGameEnv(num_snakes=1, num_teams=1), n_envs=3
 
 
 
-model = PPO('MultiInputPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=1024, learning_rate=0.0003)
+model = PPO('MultiInputPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 # # model = PPO.load("ppo_snake", env=env, device="cuda", tensorboard_log=log_dir)
 
 
