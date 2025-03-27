@@ -31,7 +31,7 @@ class SnakeGameEnv(gym.Env):
         }
         self.num_snakes = num_snakes
         self.numteams = num_teams
-        self.scale = 3
+        self.scale = 4
         self.render_mode = render_mode
         self.gs = gs
 
