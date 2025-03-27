@@ -9,8 +9,8 @@ MAX_STEPS = 50
 
 # Initial game settings
 INIT_HP = 10
-INIT_TAIL_SIZE = 10
-MAX_FRUITS = 10
+INIT_TAIL_SIZE = 2
+MAX_FRUITS = 1
 
 # Rewards
 reward_map = {
@@ -97,7 +97,7 @@ class SnakeGameEnv(gym.Env):
         im = self.env.to_image(gradation=True)
         if self.render_mode == 'human':
             cv2.imshow('Snake Game', cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST))
-            print(self._get_obs()['vector'])
+            # print(self._get_obs()['vector'])
             cv2.waitKey(0)
         elif self.render_mode == 'rgb_array':
             return cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST)
