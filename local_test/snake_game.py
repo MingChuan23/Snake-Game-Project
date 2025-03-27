@@ -252,7 +252,7 @@ class Env:
             if snake.head in self.fruit_locations:
                 self.fruit_locations.pop(self.fruit_locations.index(snake.head))
                 snake.tail_size += 1
-                snake.hp += 10
+                snake.hp += 20
                 snake_condition = SnakeState.ATE
             
             snake.shed()

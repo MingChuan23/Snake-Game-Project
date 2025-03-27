@@ -8,7 +8,7 @@ import itertools
 MAX_STEPS = 50
 
 # Initial game settings
-INIT_HP = 10
+INIT_HP = 40
 INIT_TAIL_SIZE = 2
 MAX_FRUITS = 1
 
