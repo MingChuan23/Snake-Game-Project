@@ -37,26 +37,37 @@ class SnakeGameEnv(gym.Env):
 
         self.action_space = gym.spaces.Discrete(len(self.action_map.keys()))
 
-        n = 5 * self.num_snakes  # 5 features per snake, add more if needed
-        self.observation_space = gym.spaces.Dict(
-            {
-                'image': gym.spaces.Box(
+        # FOR MULTIINPUT
+        # n = 5 * self.num_snakes  # 5 features per snake, add more if needed
+        # self.observation_space = gym.spaces.Dict(
+        #     {
+        #         'image': gym.spaces.Box(
+        #             low=0, high=255, shape=(self.gs*self.scale, self.gs*self.scale, 3),
+        #             dtype=np.uint8),
+        #         'vector': gym.spaces.Box(
+        #             low=0, high=100, shape=(n,),
+        #             dtype=np.int16)
+        #     }
+        # ) 
+
+        # FOR CNN
+        self.observation_space = gym.spaces.Box(
                     low=0, high=255, shape=(self.gs*self.scale, self.gs*self.scale, 3),
-                    dtype=np.uint8),
-                'vector': gym.spaces.Box(
-                    low=0, high=100, shape=(n,),
-                    dtype=np.int16)
-            }
-        ) 
+                    dtype=np.uint8)
 
     def _get_obs(self):
-        snakes = [(snake.hp, snake.direction.to_int(), snake.colour.value, snake.head.x, snake.head.y) for snake in self.env.snakes]
-        snakes = list(itertools.chain(*snakes)) + [0, 0, 0] * (self.num_snakes - len(snakes))
-        return {
-            'image': cv2.resize(self.env.to_image(), (self.gs*self.scale, self.gs*self.scale), interpolation=cv2.INTER_NEAREST),
-            # 'image': np.expand_dims(self.env.to_image().astype('float32'), -1),
-            'vector': snakes
-        }
+        # FOR MULTIINPUT
+
+        # snakes = [(snake.hp, snake.direction.to_int(), snake.colour.value, snake.head.x, snake.head.y) for snake in self.env.snakes]
+        # snakes = list(itertools.chain(*snakes)) + [0, 0, 0] * (self.num_snakes - len(snakes))
+        # return {
+        #     'image': cv2.resize(self.env.to_image(), (self.gs*self.scale, self.gs*self.scale), interpolation=cv2.INTER_NEAREST),
+        #     # 'image': np.expand_dims(self.env.to_image().astype('float32'), -1),
+        #     'vector': snakes
+        # }
+
+        # FOR CNN
+        return cv2.resize(self.env.to_image(), (self.gs*self.scale, self.gs*self.scale), interpolation=cv2.INTER_NEAREST)
 
     def _get_info(self):
         return {}
