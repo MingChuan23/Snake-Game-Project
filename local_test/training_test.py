@@ -20,12 +20,12 @@ class LRSchedule:
 
 log_dir = "logs"
 
-# vec_env = make_vec_env(lambda: SnakeGameEnv(num_snakes=1, num_teams=1), n_envs=2)
-env = SnakeGameEnv(num_snakes=1, num_teams=1)
+vec_env = make_vec_env(lambda: SnakeGameEnv(num_snakes=1, num_teams=1), n_envs=4)
+# env = SnakeGameEnv(num_snakes=1, num_teams=1)
 
 
 
-model = PPO('MultiInputPolicy', env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=1024, learning_rate=0.0003)
+model = PPO('MultiInputPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=1024, learning_rate=0.0003)
 # # model = PPO.load("ppo_snake", env=env, device="cuda", tensorboard_log=log_dir)
 
 
@@ -33,4 +33,5 @@ model = PPO('MultiInputPolicy', env, verbose=True, device='cuda', tensorboard_lo
 #     model.learn(100000, progress_bar=True, tb_log_name="PPO-3.2", reset_num_timesteps=False)
 #     model.save('ppo_snake3.2.zip')
 
-model.learn(100000, progress_bar=True, tb_log_name="test", reset_num_timesteps=False)
+model.learn(400000, progress_bar=True, tb_log_name="test", reset_num_timesteps=False)
+model.save('test.zip')
