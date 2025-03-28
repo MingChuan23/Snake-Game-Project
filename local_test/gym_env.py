@@ -25,10 +25,13 @@ class SnakeGameEnv(gym.Env):
         super(SnakeGameEnv, self).__init__()
         self.env = Env(gs, num_fruits=MAX_FRUITS, num_snakes=num_snakes, num_teams=num_teams, init_hp=INIT_HP, init_tail_size=INIT_TAIL_SIZE)
         self.action_map = {
-            0: 'up',
-            1: 'down',
-            2: 'left',
-            3: 'right'
+            # 0: 'up',
+            # 1: 'down',
+            # 2: 'left',
+            # 3: 'right'
+            0: 'stay',
+            1: 'left',
+            2: 'right'
         }
         self.num_snakes = num_snakes
         self.numteams = num_teams
