@@ -132,7 +132,7 @@ def _rotate_image(cv_image, _rotation_angle):
 
 
 class Snake:
-    def __init__(self, x: int = 0, y: int = 0, health=10, colour=Colour.RED, tail_size=2, perspective="first"|"third"):
+    def __init__(self, x: int = 0, y: int = 0, health=10, colour=Colour.RED, tail_size=2, perspective="third"):
         self.head = Point(x, y)
         self.tail = []
         self.tail_size = tail_size
@@ -197,7 +197,7 @@ class Snake:
                 self.direction = self.direction.turn_right()
 
 class Env:
-    def __init__(self, grid_size=10, num_fruits=10, num_snakes=1, num_teams=1, init_hp=10, init_tail_size=2, perspective="first"|"third"):
+    def __init__(self, grid_size=10, num_fruits=10, num_snakes=1, num_teams=1, init_hp=10, init_tail_size=2, perspective='third'):
         self.gs = grid_size
         self.num_fruits = num_fruits
         self.num_snakes = num_snakes
