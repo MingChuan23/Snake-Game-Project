@@ -8,31 +8,38 @@ import itertools
 MAX_STEPS = 50
 
 # Initial game settings
-INIT_HP = 40
-INIT_TAIL_SIZE = 2
+INIT_HP = 100
+INIT_TAIL_SIZE = 10 
 MAX_FRUITS = 1
+PERSPECTIVE = 'third'
 
 # Rewards
 reward_map = {
-    SnakeState.OK: -0.4,
+    SnakeState.OK: -0.1,
     SnakeState.ATE: 20,
-    SnakeState.DED: -10,
+    SnakeState.DED: -20,
     SnakeState.WON: 1
 }
 
 class SnakeGameEnv(gym.Env):
-    def __init__(self, gs=10, num_snakes=1, num_teams=1, render_mode='human'):
+    def __init__(self, gs=10, num_snakes=1, num_teams=1, render_mode='human', perspective=PERSPECTIVE):
         super(SnakeGameEnv, self).__init__()
-        self.env = Env(gs, num_fruits=MAX_FRUITS, num_snakes=num_snakes, num_teams=num_teams, init_hp=INIT_HP, init_tail_size=INIT_TAIL_SIZE)
-        self.action_map = {
-            # 0: 'up',
-            # 1: 'down',
-            # 2: 'left',
-            # 3: 'right'
-            0: 'stay',
-            1: 'left',
-            2: 'right'
-        }
+        self.env = Env(gs, num_fruits=MAX_FRUITS, num_snakes=num_snakes, num_teams=num_teams, init_hp=INIT_HP, init_tail_size=INIT_TAIL_SIZE, perspective=PERSPECTIVE)
+        
+        if perspective == 'third':
+            self.action_map = {
+                0: 'up',
+                1: 'down',
+                2: 'left',
+                3: 'right'
+            }
+        elif perspective == 'first':
+            self.action_map = {
+                0: 'stay',
+                1: 'left',
+                2: 'right'
+            }
+
         self.num_snakes = num_snakes
         self.numteams = num_teams
         self.scale = 4

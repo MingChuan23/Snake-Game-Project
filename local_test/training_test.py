@@ -31,6 +31,6 @@ model = PPO('CnnPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=l
 
 
 for i in range(100):
-    model.learn(100000, progress_bar=True, tb_log_name="PPO-3.34w", reset_num_timesteps=False)
-    model.save('ppo_snake3.34w.zip')
+    model.learn(100000, progress_bar=True, tb_log_name="PPO-3.4", reset_num_timesteps=False)
+    model.save('ppo_snake3.4.zip')
 
