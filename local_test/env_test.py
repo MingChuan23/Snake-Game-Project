@@ -17,7 +17,7 @@ while not done:
     # Apply the action
     obs, reward, done, truncated, info = env.step(action)
     
-    print(f"New observation: {obs['vector']}")
+    # print(f"New observation: {obs['vector']}")
     print(f"Reward: {reward}")
     print(f"Done: {done}")
 

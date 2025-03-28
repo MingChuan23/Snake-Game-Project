@@ -103,6 +103,13 @@ dir_map_to_angle = {
     Direction.RIGHT: -90,
 }
 
+action_dir_map = {
+    'up': Direction.UP,
+    'down': Direction.DOWN,
+    'left': Direction.LEFT,
+    'right': Direction.RIGHT,
+}
+
 sprites = {
     'head': cv2.imread('./sprites/head.png', 1),
     'body': cv2.imread('./sprites/body.png', 1),
@@ -178,13 +185,8 @@ class Snake:
         Dir: {self.direction}
         """
 
-    def apply_direction(self, action=['left', 'right', 'stay']):
-        # if action == 'stay':
-        #     return
-        if action == 'left':
-            self.direction = self.direction.turn_left()
-        elif action == 'right':
-            self.direction = self.direction.turn_right()
+    def apply_direction(self, action):
+       self.direction = action_dir_map[action]
 
 class Env:
     def __init__(self, grid_size=10, num_fruits=10, num_snakes=1, num_teams=1, init_hp=10, init_tail_size=2):
