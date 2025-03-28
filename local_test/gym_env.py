@@ -5,19 +5,19 @@ import cv2
 import itertools
 
 # Epsiode length
-MAX_STEPS = 50
+MAX_STEPS = 1000
 
 # Initial game settings
 INIT_HP = 100
 INIT_TAIL_SIZE = 4
-MAX_FRUITS = 5
+MAX_FRUITS = 1
 PERSPECTIVE = 'third'
 
 # Rewards
 reward_map = {
     SnakeState.OK: -0.4,
     SnakeState.ATE: 20,
-    SnakeState.DED: -10,
+    SnakeState.DED: -40,
     SnakeState.WON: 1
 }
 

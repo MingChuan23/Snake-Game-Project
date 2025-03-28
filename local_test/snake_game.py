@@ -197,7 +197,7 @@ class Snake:
                 self.direction = self.direction.turn_right()
 
 class Env:
-    def __init__(self, grid_size=10, num_fruits=10, num_snakes=1, num_teams=1, init_hp=10, init_tail_size=2, perspective='third'):
+    def __init__(self, grid_size=10, num_fruits=5, num_snakes=1, num_teams=1, init_hp=100, init_tail_size=4, perspective='third'):
         self.gs = grid_size
         self.num_fruits = num_fruits
         self.num_snakes = num_snakes

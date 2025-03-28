@@ -4,21 +4,22 @@ from stable_baselines3 import PPO
 import torch
 
 
-action_map = {
-    0: 'stay',
-    1: 'left',
-    2: 'right'
-}
-
 # action_map = {
-#             0: 'up',
-#             1: 'down',
-#             2: 'left',
-#             3: 'right'
-#         }
+#     0: 'stay',
+#     1: 'left',
+#     2: 'right'
+# }
+
+action_map = {
+            0: 'up',
+            1: 'down',
+            2: 'left',
+            3: 'right'
+        }
+
 
 # Load the trained model
-model = PPO.load("models/ppo_snake5_1.zip")
+model = PPO.load("models/ppo_snake3.4.zip")
 
 # Create a new environment instance for evaluation
 env = SnakeGameEnv(num_snakes=1, num_teams=1, render_mode='human')

@@ -31,6 +31,6 @@ model = PPO.load("ppo_snake3.4.zip", env=vec_env, device="cuda", tensorboard_log
 
 
 for i in range(30):
-    model.learn(100000, progress_bar=True, tb_log_name="PPO-3.4b", reset_num_timesteps=False)
-    model.save('ppo_snake3.4.zip')
+    model.learn(100000, progress_bar=True, tb_log_name="PPO-3.4c", reset_num_timesteps=False)
+    model.save('ppo_snake3.4c.zip')
 
