@@ -9,15 +9,15 @@ MAX_STEPS = 50
 
 # Initial game settings
 INIT_HP = 100
-INIT_TAIL_SIZE = 10 
-MAX_FRUITS = 1
+INIT_TAIL_SIZE = 4
+MAX_FRUITS = 5
 PERSPECTIVE = 'third'
 
 # Rewards
 reward_map = {
-    SnakeState.OK: -0.1,
+    SnakeState.OK: -0.4,
     SnakeState.ATE: 20,
-    SnakeState.DED: -20,
+    SnakeState.DED: -10,
     SnakeState.WON: 1
 }
 
