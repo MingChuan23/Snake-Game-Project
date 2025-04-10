@@ -4,7 +4,7 @@ from gym_env import SnakeGameEnv
 import json
 import os
 
-model_name = "ppo_snake4.1"
+model_name = "ppo_snake4.2"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 

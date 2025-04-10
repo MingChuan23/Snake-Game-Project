@@ -22,13 +22,13 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.1_2.zip")
+model = PPO.load("models/ppo_snake4.1_2b.zip")
 
 # Create a new environment instance for evaluation
 env = Monitor(SnakeGameEnv(**game_params))
 
 # Evaluate the model
-rew, std = evaluate_policy(model, env, n_eval_episodes=10, render=True, return_episode_rewards=False, warn=True)
+rew, std = evaluate_policy(model, env, n_eval_episodes=10, render=True, return_episode_rewards=True, warn=True)
 
 
 # For getting the explicit actions probabilities, could be good for data and reporting
