@@ -8,7 +8,7 @@ import json
 log_dir = "logs"
 config_dir = "param_configs"
 
-with open(f"{config_dir}/ppo_snake4.1/c.json", "r") as f:
+with open(f"{config_dir}/eval.json", "r") as f:
     game_params = json.load(f)
 
 
