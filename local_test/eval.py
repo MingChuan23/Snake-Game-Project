@@ -21,7 +21,7 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.0_0.zip")
+model = PPO.load("models/ppo_snake4.1_2.zip")
 
 # Create a new environment instance for evaluation
 env = SnakeGameEnv(**game_params)
@@ -31,7 +31,7 @@ env = SnakeGameEnv(**game_params)
 
 
 # For getting the explicit actions probabilities, could be good for data and reporting
-num_episodes = 50
+num_episodes = 10
 all_action_probs = []
 
 for _ in range(num_episodes):

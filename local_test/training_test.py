@@ -7,7 +7,7 @@ import json
 log_dir = "logs"
 config_dir = "param_configs"
 
-with open(f"{config_dir}/4.0.json", "r") as f:
+with open(f"{config_dir}/ppo_snake4.1/c.json", "r") as f:
     game_params = json.load(f)
 
 vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
@@ -20,7 +20,7 @@ model = PPO('CnnPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=l
 # model = PPO.load("ppo_snake3.4.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 
 
-for i in range(1):
+for i in range(20):
     model.learn(100000, progress_bar=True, tb_log_name="test", reset_num_timesteps=False)
     model.save('test.zip')
 

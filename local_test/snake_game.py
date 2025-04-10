@@ -207,6 +207,7 @@ class Env:
         self.init_hp = init_hp
         self.init_tail_size = init_tail_size
         self.perspective = perspective
+        self.fruit_heal = 20
 
         self.reset()
 
@@ -263,7 +264,7 @@ class Env:
             if snake.head in self.fruit_locations:
                 self.fruit_locations.pop(self.fruit_locations.index(snake.head))
                 snake.tail_size += 1
-                snake.hp += 20
+                snake.hp += self.fruit_heal
                 snake_condition = SnakeState.ATE
             
             snake.shed()
