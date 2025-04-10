@@ -30,4 +30,3 @@ model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, dev
 for i in range(1):
     model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.1_single", reset_num_timesteps=False)
     model.save('ppo_snake4.1_single.zip')
-
