@@ -2,7 +2,7 @@ from stable_baselines3.common.evaluation import evaluate_policy
 from gym_env import SnakeGameEnv
 from stable_baselines3 import PPO
 import torch
-
+import json
 
 # action_map = {
 #     0: 'stay',
@@ -17,19 +17,21 @@ action_map = {
             3: 'right'
         }
 
+with open("param_configs/eval.json", "r") as f:
+    game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake3.4.zip")
+model = PPO.load("models/ppo_snake4.0_0.zip")
 
 # Create a new environment instance for evaluation
-env = SnakeGameEnv(num_snakes=1, num_teams=1, render_mode='human')
+env = SnakeGameEnv(**game_params)
 
 # Evaluate the model
 # rew, std = evaluate_policy(model, env, n_eval_episodes=50, render=True, return_episode_rewards=False, warn=False)
 
 
 # For getting the explicit actions probabilities, could be good for data and reporting
-num_episodes = 10
+num_episodes = 50
 all_action_probs = []
 
 for _ in range(num_episodes):

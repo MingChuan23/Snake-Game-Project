@@ -4,7 +4,7 @@ from gym_env import SnakeGameEnv
 import json
 import os
 
-model_name = "ppo_snake4.0"
+model_name = "ppo_snake4.1"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
@@ -16,7 +16,6 @@ for filename in os.listdir(config_dir):
 
 model = None
 for i, params in enumerate(param_list):
-    print(params)
     vec_env = make_vec_env(lambda: SnakeGameEnv(**params), n_envs=32)
 
     if not model:
