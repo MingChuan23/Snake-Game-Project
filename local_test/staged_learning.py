@@ -29,5 +29,5 @@ for i, params in enumerate(param_list):
 
     num_repeats = 5 if i < len(param_list) - 1 else 10
     for j in range(num_repeats):
-        model.learn(100000, progress_bar=True, tb_log_name=f"{model_name}_{i}", reset_num_timesteps=False)
+        model.learn(200000, progress_bar=True, tb_log_name=f"{model_name}_{i}", reset_num_timesteps=False)
         model.save(f'{model_name}_{i}.zip')
