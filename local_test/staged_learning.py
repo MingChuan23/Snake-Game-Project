@@ -22,6 +22,6 @@ for i, params in enumerate(param_list):
     if not model:
         model = PPO('CnnPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 
-    for i in range(1):
+    for j in range(1):
         model.learn(100000, progress_bar=True, tb_log_name=f"{model_name}_{i}", reset_num_timesteps=False)
         model.save(f'{model_name}_{i}.zip')
