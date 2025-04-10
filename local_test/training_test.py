@@ -1,36 +1,26 @@
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
 from gym_env import SnakeGameEnv
-
-
-class LRSchedule:
-    def __init__(self, total_timesteps, decay_start=0.5):
-        self.total_timesteps = total_timesteps
-        self.decay_start = 1 - decay_start
-        self.timesteps_trained = 0
-
-    def __call__(self, _):
-        self.timesteps_trained += 1
-        progress_remaining = 1 - self.timesteps_trained / self.total_timesteps
-
-        if progress_remaining < self.decay_start:
-            return 3e-4 * (progress_remaining / self.decay_start)
-        return 3e-4
+import json
 
 
 log_dir = "logs"
+config_dir = "param_configs"
 
-vec_env = make_vec_env(lambda: SnakeGameEnv(num_snakes=1, num_teams=1), n_envs=32)
+with open(f"{config_dir}/4.0.json", "r") as f:
+    game_params = json.load(f)
+
+vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
 # env = SnakeGameEnv(num_snakes=1, num_teams=1)
 
 
 
 # model = PPO('MultiInputPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
-# model = PPO('CnnPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
-model = PPO.load("ppo_snake3.4.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+model = PPO('CnnPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+# model = PPO.load("ppo_snake3.4.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 
 
-for i in range(30):
-    model.learn(100000, progress_bar=True, tb_log_name="PPO-3.4c", reset_num_timesteps=False)
-    model.save('ppo_snake3.4c.zip')
+for i in range(1):
+    model.learn(100000, progress_bar=True, tb_log_name="test", reset_num_timesteps=False)
+    model.save('test.zip')
 

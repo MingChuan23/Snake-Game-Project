@@ -5,26 +5,31 @@ import cv2
 import itertools
 
 # Epsiode length
-MAX_STEPS = 1000
+# MAX_STEPS = 1000
 
-# Initial game settings
-INIT_HP = 100
-INIT_TAIL_SIZE = 4
-MAX_FRUITS = 1
-PERSPECTIVE = 'third'
+# # Initial game settings
+# INIT_HP = 100
+# INIT_TAIL_SIZE = 4
+# MAX_FRUITS = 1
+# PERSPECTIVE = 'third'
 
-# Rewards
-reward_map = {
-    SnakeState.OK: -0.4,
-    SnakeState.ATE: 20,
-    SnakeState.DED: -40,
-    SnakeState.WON: 1
-}
+# # Rewards
+# reward_map = {
+#     SnakeState.OK: -0.4,
+#     SnakeState.ATE: 20,
+#     SnakeState.DED: -40,
+#     SnakeState.WON: 1
+# }
+
+
+# Allows rewards to be converted from the json strings to enum values
+def parse_enum(enum, str_dict:dict):
+    return {enum[key.split('.')[-1]]: value for key, value in str_dict.items()}
 
 class SnakeGameEnv(gym.Env):
-    def __init__(self, gs=10, num_snakes=1, num_teams=1, render_mode='human', perspective=PERSPECTIVE):
+    def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', num_snakes=1, num_teams=1, render_mode='human', rewards={}):
         super(SnakeGameEnv, self).__init__()
-        self.env = Env(gs, num_fruits=MAX_FRUITS, num_snakes=num_snakes, num_teams=num_teams, init_hp=INIT_HP, init_tail_size=INIT_TAIL_SIZE, perspective=PERSPECTIVE)
+        self.env = Env(gs=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
         
         if perspective == 'third':
             self.action_map = {
@@ -40,6 +45,8 @@ class SnakeGameEnv(gym.Env):
                 2: 'right'
             }
 
+        self.reward_map = parse_enum(SnakeState, rewards)
+        self.max_steps = max_steps
         self.num_snakes = num_snakes
         self.numteams = num_teams
         self.scale = 4
@@ -100,7 +107,7 @@ class SnakeGameEnv(gym.Env):
         reward = reward_map[snake_condition]  / 100
 
         is_terminal = snake_condition in [SnakeState.DED, SnakeState.WON] 
-        truncated = self.env.time_steps > MAX_STEPS
+        truncated = self.env.time_steps > self.max_steps
 
         return self._get_obs(), reward, is_terminal, truncated, self._get_info()
     
