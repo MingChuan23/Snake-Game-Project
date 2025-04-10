@@ -210,6 +210,14 @@ class Env:
         self.fruit_heal = 20
 
         self.reset()
+    
+    def get_min_dist_to_fruit(self):
+        min_dist = float('inf')
+        for fruit in self.fruit_locations:
+            dist = self.snakes[0].head.dist(fruit)
+            if dist < min_dist:
+                min_dist = dist
+        return min_dist
 
     def reset(self):
         self.step = 0
