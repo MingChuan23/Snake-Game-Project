@@ -27,7 +27,7 @@ model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, dev
 # model = PPO.load("ppo_snake3.4.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 
 
-for i in range(20):
+for i in range(1):
     model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.1_single", reset_num_timesteps=False)
     model.save('ppo_snake4.1_single.zip')
 
