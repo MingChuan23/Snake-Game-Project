@@ -4,6 +4,7 @@ from stable_baselines3 import PPO
 import torch
 import json
 from stable_baselines3.common.monitor import Monitor
+from feature_extractor import CustomCNN
 
 # action_map = {
 #     0: 'stay',
@@ -22,7 +23,7 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.1_2b.zip")
+model = PPO.load("models/ppo_snake4.2_2b.zip")
 
 # Create a new environment instance for evaluation
 env = Monitor(SnakeGameEnv(**game_params))

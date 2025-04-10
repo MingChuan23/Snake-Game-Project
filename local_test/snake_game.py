@@ -294,8 +294,19 @@ class Env:
         dead_snakes = [i+1 for i, state in enumerate(snake_states[1:]) if state == SnakeState.DED]
         for dead_snake in dead_snakes:
             self.snakes.pop(dead_snake)
-        
+
+        # try:
+        #     self.set_fruits()
+        #     self.snake.tail_size += 1
+        #     out_enum = SnakeState.ATE
+        # except IndexError:
+        #     out_enum = SnakeState.WON
+        # if len(self.fruit_locations) == 0:
+        #     out_enum = SnakeState.WON
+
         self.set_fruits()
+        if len(self.fruit_locations) == 0:
+            snake_states[0] = SnakeState.WON
         self.time_steps += 1
         return snake_states[0], self.snakes[0].hp, self.snakes[0].tail_size
 
