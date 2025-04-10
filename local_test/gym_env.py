@@ -29,7 +29,7 @@ def parse_enum(enum, str_dict:dict):
 class SnakeGameEnv(gym.Env):
     def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', num_snakes=1, num_teams=1, render_mode='human', rewards={}):
         super(SnakeGameEnv, self).__init__()
-        self.env = Env(gs=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
+        self.env = Env(grid_size=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
         
         if perspective == 'third':
             self.action_map = {
