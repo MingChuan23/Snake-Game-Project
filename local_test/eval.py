@@ -29,7 +29,7 @@ model = PPO.load("models/ppo_snake4.3_2.zip")
 env = Monitor(SnakeGameEnv(**game_params))
 
 # Evaluate the model
-rew, std = evaluate_policy(model, env, n_eval_episodes=10, render=True, return_episode_rewards=True, warn=True)
+rew, std = evaluate_policy(model, env, n_eval_episodes=10, render=False, return_episode_rewards=False, warn=True)
 
 
 # For getting the explicit actions probabilities, could be good for data and reporting
@@ -53,7 +53,6 @@ rew, std = evaluate_policy(model, env, n_eval_episodes=10, render=True, return_e
 #         action, _ = model.predict(obs, deterministic=False)
 #         print(f"Action: {action_map[int(action)]}")
 #         obs, reward, done,_, _ = env.step(int(action))
-
 
 
 

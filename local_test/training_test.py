@@ -23,10 +23,10 @@ vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
 
 
 # model = PPO('MultiInputPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
-model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 # model = PPO.load("ppo_snake3.4.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+# print(model.get_parameters()['policy'].keys())
 
-
-for i in range(1):
-    model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.1_single", reset_num_timesteps=False)
-    model.save('ppo_snake4.1_single.zip')
+for i in range(40):
+    model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.3_single", reset_num_timesteps=False)
+    model.save('ppo_snake4.3_single.zip')
