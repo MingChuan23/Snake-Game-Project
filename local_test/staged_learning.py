@@ -5,7 +5,7 @@ from feature_extractor import CustomCNN
 import json
 import os
 
-model_name = "ppo_snake4.3"
+model_name = "ppo_snake4.4"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
@@ -29,5 +29,5 @@ for i, params in enumerate(param_list):
 
     num_repeats = 5 if i < len(param_list) - 1 else 10
     for j in range(num_repeats):
-        model.learn(200000, progress_bar=True, tb_log_name=f"{model_name}_{i}", reset_num_timesteps=False)
+        model.learn(400000, progress_bar=True, tb_log_name=f"{model_name}_{i}", reset_num_timesteps=False)
         model.save(f'{model_name}_{i}.zip')
