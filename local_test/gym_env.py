@@ -111,7 +111,7 @@ class SnakeGameEnv(gym.Env):
         if self.render_mode == 'human':
             cv2.imshow('Snake Game', cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST))
             # print(self._get_obs()['vector'])
-            cv2.waitKey(0)
+            cv2.waitKey(1)
         elif self.render_mode == 'rgb_array':
             return cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST)
         elif self.render_mode == 'ansi':
