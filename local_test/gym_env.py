@@ -88,7 +88,7 @@ class SnakeGameEnv(gym.Env):
         return cv2.resize(self.env.to_image(), (self.gs*self.scale, self.gs*self.scale), interpolation=cv2.INTER_NEAREST)
 
     def _get_info(self):
-        return {}
+        return {"Scores": self.env.scores}
         
     def reset(self, *, seed = None):
         super().reset(seed=seed)
