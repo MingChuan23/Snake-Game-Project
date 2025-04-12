@@ -27,7 +27,7 @@ def parse_enum(enum, str_dict:dict):
     return {enum[key.split('.')[-1]]: value for key, value in str_dict.items()}
 
 class SnakeGameEnv(gym.Env):
-    def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', num_snakes=1, num_teams=1, render_mode='human', rewards={}):
+    def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', num_snakes=1, num_teams=1, render_mode='human', rewards={}, scale=1):
         super(SnakeGameEnv, self).__init__()
         self.env = Env(grid_size=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
         
@@ -49,7 +49,7 @@ class SnakeGameEnv(gym.Env):
         self.max_steps = max_steps
         self.num_snakes = num_snakes
         self.numteams = num_teams
-        self.scale = 1
+        self.scale = scale
         self.render_mode = render_mode
         self.gs = gs
 

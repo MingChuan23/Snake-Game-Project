@@ -12,5 +12,6 @@
         "SnakeState.WON": 100
     },
     "num_snakes": 1,
-    "num_teams": 1
+    "num_teams": 1,
+    "scale": 1
 }

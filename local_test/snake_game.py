@@ -221,6 +221,7 @@ class Env:
 
     def reset(self):
         self.step = 0
+        self.scores = [0 for _ in range(self.num_snakes)]
         grid_size = self.gs
 
         self.snakes = [Snake(random.randint(0, self.gs-1), random.randint(0, self.gs-1), health=self.init_hp, tail_size=self.init_tail_size, perspective=self.perspective) for _ in range(self.num_snakes)]
@@ -274,6 +275,7 @@ class Env:
             snake.tail_size += 1
             snake.hp += self.fruit_heal
             snake_condition = SnakeState.ATE
+            self.scores[snake_id] += 1
         
         snake.shed()
         if not self._bounds_check(snake.head) or snake.self_collision() or snake.hp <= 0:

@@ -1,8 +1,8 @@
 {
     "max_steps": 1000,
-    "init_hp": 40,
+    "init_hp": 100,
     "init_tail_size": 4,
-    "num_fruits": 3,
+    "num_fruits": 5,
     "gs": 10,
     "perspective": "third",
     "rewards": {
@@ -12,5 +12,6 @@
         "SnakeState.WON": 100
     },
     "num_snakes": 1,
-    "num_teams": 1
+    "num_teams": 1,
+    "scale": 4
 }
