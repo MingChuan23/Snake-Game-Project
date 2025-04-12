@@ -23,7 +23,7 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.3_2.zip")
+model = PPO.load("models/ppo_snake4.4_2.zip")
 
 # Create a new environment instance for evaluation
 env = Monitor(SnakeGameEnv(**game_params))
