@@ -26,7 +26,8 @@ for i, params in enumerate(param_list):
     vec_env = make_vec_env(lambda: SnakeGameEnv(**params), n_envs=32)
 
     if not model:
-        model = A2C('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+        # model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+        model = A2C('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, learning_rate=0.0003)
 
     num_repeats = 5 if i < len(param_list) - 1 else 10
     for j in range(num_repeats):
