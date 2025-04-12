@@ -1,11 +1,11 @@
-from stable_baselines3 import PPO
+from stable_baselines3 import PPO, A2C
 from stable_baselines3.common.env_util import make_vec_env
 from gym_env import SnakeGameEnv
 from feature_extractor import CustomCNN
 import json
 import os
 
-model_name = "ppo_snake4.3h"
+model_name = "a2c_snake1.0"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
@@ -26,7 +26,7 @@ for i, params in enumerate(param_list):
     vec_env = make_vec_env(lambda: SnakeGameEnv(**params), n_envs=32)
 
     if not model:
-        model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+        model = A2C('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 
     num_repeats = 5 if i < len(param_list) - 1 else 10
     for j in range(num_repeats):
