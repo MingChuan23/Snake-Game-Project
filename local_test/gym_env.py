@@ -49,7 +49,7 @@ class SnakeGameEnv(gym.Env):
         self.max_steps = max_steps
         self.num_snakes = num_snakes
         self.numteams = num_teams
-        self.scale = 4
+        self.scale = 1
         self.render_mode = render_mode
         self.gs = gs
 

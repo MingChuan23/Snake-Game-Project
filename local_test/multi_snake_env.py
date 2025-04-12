@@ -46,33 +46,25 @@ class SnakeMultiEnv(ParallelEnv):
                 2: 'right'
             }
 
+        self.agents = [f"snake_{i}" for i in range(num_snakes)]
+
         self.reward_map = parse_enum(SnakeState, rewards)
         self.max_steps = max_steps
         self.num_snakes = num_snakes
-        self.numteams = num_teams
+        self.num_teams = num_teams
         self.scale = 4
         self.render_mode = render_mode
         self.gs = gs
 
         self.action_space = gym.spaces.Discrete(len(self.action_map.keys()))
 
-        # FOR MULTIINPUT
-        # n = 5 * self.num_snakes  # 5 features per snake, add more if needed
-        # self.observation_space = gym.spaces.Dict(
-        #     {
-        #         'image': gym.spaces.Box(
-        #             low=0, high=255, shape=(self.gs*self.scale, self.gs*self.scale, 3),
-        #             dtype=np.uint8),
-        #         'vector': gym.spaces.Box(
-        #             low=0, high=100, shape=(n,),
-        #             dtype=np.int16)
-        #     }
-        # ) 
-
         # FOR CNN
-        self.observation_space = gym.spaces.Box(
-                    low=0, high=255, shape=(self.gs*self.scale, self.gs*self.scale, 3),
-                    dtype=np.uint8)
+        self.observation_spaces = {
+                    snake_id: gym.spaces.Box(
+                                low=0, high=255, shape=(self.gs*self.scale, self.gs*self.scale, 3),
+                                dtype=np.uint8)
+                    for snake_id in range(self.num_snakes)
+                    }
 
     def _get_obs(self):
         # FOR MULTIINPUT
