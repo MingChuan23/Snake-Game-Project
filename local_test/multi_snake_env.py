@@ -3,6 +3,7 @@ import gymnasium as gym
 from snake_game import Env, SnakeState
 import cv2
 import itertools
+from pettingzoo.utils.env import ParallelEnv
 
 # Epsiode length
 # MAX_STEPS = 1000
@@ -26,9 +27,9 @@ import itertools
 def parse_enum(enum, str_dict:dict):
     return {enum[key.split('.')[-1]]: value for key, value in str_dict.items()}
 
-class SnakeGameEnv(gym.Env):
+class SnakeMultiEnv(ParallelEnv):
     def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', num_snakes=1, num_teams=1, render_mode='human', rewards={}):
-        super(SnakeGameEnv, self).__init__()
+        super(SnakeMultiEnv, self).__init__()
         self.env = Env(grid_size=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
         
         if perspective == 'third':
@@ -97,7 +98,12 @@ class SnakeGameEnv(gym.Env):
         return self._get_obs(), self._get_info()
     
     def step(self, action):
-        snake_condition, hp, tail_size = self.env.update(self.action_map[action])
+        actions = [action]
+        if self.num_snakes > 1:  #TODO: Add fixed agent move selection, currently random
+            for i in range(1, self.num_snakes):
+                actions.append(self.action_space.sample())
+
+        snake_condition, hp, tail_size = self.env.update([self.action_map[a] for a in actions])
 
         reward = self.reward_map[snake_condition]  / 100
 

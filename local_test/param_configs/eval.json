@@ -1,6 +1,6 @@
 {
     "max_steps": 1000,
-    "init_hp": 1000,
+    "init_hp": 40,
     "init_tail_size": 4,
     "num_fruits": 1,
     "gs": 10,
@@ -9,7 +9,7 @@
         "SnakeState.OK": -0.4,
         "SnakeState.ATE": 20,
         "SnakeState.DED": -10,
-        "SnakeState.WON": 1
+        "SnakeState.WON": 100
     },
     "num_snakes": 1,
     "num_teams": 1

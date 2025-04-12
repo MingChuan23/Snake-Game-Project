@@ -260,26 +260,26 @@ class Env:
             snake_locs.extend(snake.tail)
         return snake_locs
 
-    def update(self, directions:list[str]):
+    def update(self, direction:str, snake_id=0):
         hp_decay = self.decay_rate and self.time_steps % self.decay_rate == 0
 
         snake_states = []
-        for snake, direction in zip(self.snakes, directions):
-            snake.apply_direction(direction)
-            snake.update(hp_decay)
-            snake_condition = SnakeState.OK
+        snake = self.snakes[snake_id]
+        snake.apply_direction(direction)
+        snake.update(hp_decay)
+        snake_condition = SnakeState.OK
 
-            if snake.head in self.fruit_locations:
-                self.fruit_locations.pop(self.fruit_locations.index(snake.head))
-                snake.tail_size += 1
-                snake.hp += self.fruit_heal
-                snake_condition = SnakeState.ATE
-            
-            snake.shed()
-            if not self._bounds_check(snake.head) or snake.self_collision() or snake.hp <= 0:
-                snake_condition = SnakeState.DED
+        if snake.head in self.fruit_locations:
+            self.fruit_locations.pop(self.fruit_locations.index(snake.head))
+            snake.tail_size += 1
+            snake.hp += self.fruit_heal
+            snake_condition = SnakeState.ATE
+        
+        snake.shed()
+        if not self._bounds_check(snake.head) or snake.self_collision() or snake.hp <= 0:
+            snake_condition = SnakeState.DED
 
-            snake_states.append(snake_condition)
+        snake_states.append(snake_condition)
 
         self.snake_locs = self.get_snake_locs()
 
@@ -291,7 +291,7 @@ class Env:
                 if snake.head in locs:
                     snake_states[i] = SnakeState.DED
         
-        dead_snakes = [i+1 for i, state in enumerate(snake_states[1:]) if state == SnakeState.DED]
+        dead_snakes = [i for i, state in enumerate(snake_states[1:]) if state == SnakeState.DED]
         for dead_snake in dead_snakes:
             self.snakes.pop(dead_snake)
 
@@ -362,10 +362,10 @@ class Env:
         return canvas
     
 if __name__ == '__main__':
-    env = Env(10, 2, 2, 1)
+    env = Env(10, 2, 2, 2)
     cv2.imwrite('test/test.png', cv2.resize(env.to_image(), (640, 640), interpolation=cv2.INTER_NEAREST)) 
 
     while True:
         n = input()
-        print(env.update([n, 'stay']))
+        print(env.update(n, 0))
         cv2.imwrite('test/test.png', cv2.resize(env.to_image(), (640, 640), interpolation=cv2.INTER_NEAREST))
