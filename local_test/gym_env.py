@@ -27,7 +27,7 @@ def parse_enum(enum, str_dict:dict):
     return {enum[key.split('.')[-1]]: value for key, value in str_dict.items()}
 
 class SnakeGameEnv(gym.Env):
-    def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', use_dist=False, num_snakes=1, num_teams=1, render_mode='human', rewards={}, scale=1):
+    def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', use_dist=0, num_snakes=1, num_teams=1, render_mode='human', rewards={}, scale=1):
         super(SnakeGameEnv, self).__init__()
         self.env = Env(grid_size=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
         
@@ -102,7 +102,7 @@ class SnakeGameEnv(gym.Env):
 
         reward = self.reward_map[snake_condition]  / 100
         if self.use_dist:
-            reward += (20 - self.env.get_min_dist_to_fruit()) / 100
+            reward += max((self.use_dist - self.env.get_min_dist_to_fruit()), 0) / 100
 
         is_terminal = snake_condition in [SnakeState.DED, SnakeState.WON] 
         truncated = self.env.time_steps > self.max_steps

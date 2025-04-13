@@ -14,5 +14,5 @@
     "num_snakes": 1,
     "num_teams": 1,
     "scale": 4,
-    "use_dist": true
+    "use_dist": 20
 }
