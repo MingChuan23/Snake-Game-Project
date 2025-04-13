@@ -34,8 +34,10 @@ def fitness_func(ga_instance, solution, solution_idx):
     model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=True, device='cuda', n_steps=128, batch_size=2048, learning_rate=0.0003)
     model.learn(total_timesteps=500000, progress_bar=True)  # Adjust timesteps as needed
 
+    with open(f"{config_dir}/eval.json", "r") as f:
+        eval_params = json.load(f)
     # After training, evaluate the model (mean reward in a set of episodes)
-    env = Monitor(SnakeGameEnv(**game_params))
+    env = Monitor(SnakeGameEnv(**eval_params))
     mean_reward, std = evaluate_policy(model, env, n_eval_episodes=30, render=False, return_episode_rewards=False, warn=False, deterministic=False)
     
     # The fitness is the mean reward; higher mean reward is better
