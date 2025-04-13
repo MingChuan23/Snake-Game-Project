@@ -66,8 +66,8 @@ with tqdm(total=num_generations) as pbar:
     ga_instance.run()
 
 solution, solution_fitness, solution_idx  = ga_instance.best_solution()
-print("Best solution: ", solution)
+print("Best solution2: ", solution)
 print("Fitness: ", solution_fitness)
 
-with open("best_solution.txt", "w") as f:
+with open("best_solution2.txt", "w") as f:
     f.write(f"{solution}")
