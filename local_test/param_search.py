@@ -41,29 +41,31 @@ def fitness_func(ga_instance, solution, solution_idx):
     # The fitness is the mean reward; higher mean reward is better
     return mean_reward
 
-ga_instance = pygad.GA(
-    num_generations=20,       # Number of generations
-    sol_per_pop=10,           # Number of solutions in the population
-    num_parents_mating=5,     # Number of parents to mate
-    fitness_func=fitness_func,
-    num_genes=4,
-    gene_space=[              # Define the reward weight parameters (values can vary)
-        {'low': -3, 'high': -1},  # Range for OK reward
-        {'low': 10, 'high': 100},  # Range for ATE reward
-        {'low': -100, 'high': -10},   # Range for DED reward
-        {'low': 20, 'high': 40},   # Range for distance reward
+num_generations = 20
+with tqdm(total=num_generations) as pbar:
+    ga_instance = pygad.GA(
+        num_generations=20,       # Number of generations
+        sol_per_pop=10,           # Number of solutions in the population
+        num_parents_mating=5,     # Number of parents to mate
+        fitness_func=fitness_func,
+        num_genes=4,
+        gene_space=[              # Define the reward weight parameters (values can vary)
+            {'low': -3, 'high': -1},  # Range for OK reward
+            {'low': 10, 'high': 100},  # Range for ATE reward
+            {'low': -100, 'high': -10},   # Range for DED reward
+            {'low': 20, 'high': 40},   # Range for distance reward
 
-    ],
-    crossover_type="uniform",  # Crossover method
-    mutation_type="random",    # Mutation method
-    mutation_percent_genes=10, # Mutation rate
-)
+        ],
+        crossover_type="uniform",  # Crossover method
+        mutation_type="random",    # Mutation method
+        mutation_percent_genes=10, # Mutation rate
+    )
 
-for generation in tqdm(range(ga_instance.num_generations), desc="GA Generations"):
-    ga_instance.run(num_generations=1)  # Run one generation at a time
+    ga_instance.run()
 
-best_solution = ga_instance.best_solution()
-print("Best solution: ", best_solution)
+solution, solution_fitness, solution_idx  = ga_instance.best_solution()
+print("Best solution: ", solution)
+print("Fitness: ", solution_fitness)
 
-with open("best_solution.json", "w") as f:
-    json.dump(best_solution, f)
+with open("best_solution.txt", "w") as f:
+    f.write(f"{solution}")
