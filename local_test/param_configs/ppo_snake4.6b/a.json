@@ -2,11 +2,11 @@
     "max_steps": 1000,
     "init_hp": 100,
     "init_tail_size": 4,
-    "num_fruits": 5,
+    "num_fruits": 10,
     "gs": 10,
     "perspective": "third",
     "rewards": {
-        "SnakeState.OK": -0.4,
+        "SnakeState.OK": -0.8,
         "SnakeState.ATE": 20,
         "SnakeState.DED": -100,
         "SnakeState.WON": 100
