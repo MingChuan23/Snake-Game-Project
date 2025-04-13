@@ -5,7 +5,7 @@ from feature_extractor import CustomCNN
 import json
 import os
 
-model_name = "ppo_snake4.3g(2)"
+model_name = "ppo_snake4.3g(2b)"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
