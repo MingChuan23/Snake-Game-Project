@@ -18,7 +18,7 @@ policy_kwargs = dict(
     features_extractor_kwargs=dict(features_dim=256),
 )
 
-def fitness_func(solution, solution_idx):
+def fitness_func(ga_instance, solution, solution_idx):
     rewards = {
         "SnakeState.OK": solution[0],
         "SnakeState.ATE": solution[1], 
