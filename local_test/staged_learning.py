@@ -21,7 +21,7 @@ policy_kwargs = dict(
     share_features_extractor=False
 )
 
-model = PPO.load("models/ppo_snake4.3g_2.zip")
+model = PPO.load("ppo_snake4.3g_2.zip")
 for i, params in enumerate(param_list):
     vec_env = make_vec_env(lambda: SnakeGameEnv(**params), n_envs=32)
 
