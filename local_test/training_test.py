@@ -14,7 +14,8 @@ with open(f"{config_dir}/ppo_snake4.5/c.json", "r") as f:
 
 policy_kwargs = dict(
     features_extractor_class=CustomCNN,
-    features_extractor_kwargs=dict(features_dim=256)
+    features_extractor_kwargs=dict(features_dim=256),
+    net_arch=dict(pi=[128, 64], vf=[256, 256, 128])
 )
 
 vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
@@ -23,10 +24,10 @@ vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
 
 
 # model = PPO('MultiInputPolicy', vec_env, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
-# model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
-model = PPO.load("ppo_snake4.5_2.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+# model = PPO.load("ppo_snake4.5_2.zip", env=vec_env, device="cuda", tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
 # print(model.get_parameters()['policy'].keys())
 
-for i in range(40):
-    model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.5_2cont", reset_num_timesteps=False)
-    model.save('ppo_snake4.5_2cont.zip')
+for i in range(100):
+    model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.6single", reset_num_timesteps=False)
+    model.save('ppo_snake4.6_single.zip')
