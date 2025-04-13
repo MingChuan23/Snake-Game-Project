@@ -29,5 +29,5 @@ model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=True, devi
 # print(model.get_parameters()['policy'].keys())
 
 for i in range(100):
-    model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.6single", reset_num_timesteps=False)
-    model.save('ppo_snake4.6_single.zip')
+    model.learn(100000, progress_bar=True, tb_log_name="ppo_snake4.6single_trunc", reset_num_timesteps=False)
+    model.save('ppo_snake4.6_single_trunc.zip')
