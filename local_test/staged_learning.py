@@ -5,7 +5,7 @@ from feature_extractor import CustomCNN
 import json
 import os
 
-model_name = "ppo_snake4.5"
+model_name = "ppo_snake4.6"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
@@ -18,7 +18,7 @@ for filename in sorted(os.listdir(config_dir)):
 policy_kwargs = dict(
     features_extractor_class=CustomCNN,
     features_extractor_kwargs=dict(features_dim=256),
-    share_features_extractor=False
+    net_arch=dict(pi=[128, 64], vf=[256, 256, 128])
 )
 
 model = None
