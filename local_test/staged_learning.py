@@ -5,7 +5,7 @@ from feature_extractor import CustomCNN
 import json
 import os
 
-model_name = "ppo_snake4.3g(2b)"
+model_name = "ppo_snake4.5"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
@@ -21,7 +21,7 @@ policy_kwargs = dict(
     share_features_extractor=False
 )
 
-model = PPO.load("ppo_snake4.3g_2.zip")
+model = None
 for i, params in enumerate(param_list):
     vec_env = make_vec_env(lambda: SnakeGameEnv(**params), n_envs=32)
     model.set_env(vec_env)
