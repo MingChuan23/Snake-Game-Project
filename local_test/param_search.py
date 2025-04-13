@@ -44,6 +44,10 @@ def fitness_func(ga_instance, solution, solution_idx):
     return mean_reward
 
 num_generations = 20
+
+def on_generation_progress(ga):
+    pbar.update(1)
+
 with tqdm(total=num_generations) as pbar:
     ga_instance = pygad.GA(
         num_generations=20,       # Number of generations
@@ -55,12 +59,13 @@ with tqdm(total=num_generations) as pbar:
             {'low': -3, 'high': -1},  # Range for OK reward
             {'low': 10, 'high': 100},  # Range for ATE reward
             {'low': -100, 'high': -10},   # Range for DED reward
-            {'low': 20, 'high': 40},   # Range for distance reward
+            {'low': 20, 'high': 30},   # Range for distance reward
 
         ],
         crossover_type="uniform",  # Crossover method
         mutation_type="random",    # Mutation method
         mutation_percent_genes=10, # Mutation rate
+        on_generation=on_generation_progress
     )
 
     ga_instance.run()
