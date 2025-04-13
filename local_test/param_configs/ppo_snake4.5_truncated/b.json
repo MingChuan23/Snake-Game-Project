@@ -1,5 +1,5 @@
 {
-    "max_steps": 1000,
+    "max_steps": 100,
     "init_hp": 100,
     "init_tail_size": 4,
     "num_fruits": 5,
