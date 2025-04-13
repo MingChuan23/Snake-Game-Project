@@ -23,7 +23,7 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.5_1.zip")
+model = PPO.load("models/ppo_snake4.5_2.zip")
 print(model.policy)
 input("Press Enter to continue...")
 
