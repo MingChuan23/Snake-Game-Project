@@ -24,7 +24,7 @@ policy_kwargs = dict(
 model = None
 for i, params in enumerate(param_list):
     vec_env = make_vec_env(lambda: SnakeGameEnv(**params), n_envs=32)
-    model.set_env(vec_env)
+    # model.set_env(vec_env)
 
     if not model:
         model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
