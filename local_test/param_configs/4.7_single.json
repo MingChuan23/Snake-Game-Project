@@ -1,0 +1,18 @@
+{
+    "max_steps": 200,
+    "init_hp": 500,
+    "init_tail_size": 4,
+    "num_fruits": 1,
+    "gs": 10,
+    "perspective": "third",
+    "rewards": {
+        "SnakeState.OK": -0.4,
+        "SnakeState.ATE": 40,
+        "SnakeState.DED": -100,
+        "SnakeState.WON": 100
+    },
+    "num_snakes": 1,
+    "num_teams": 1,
+    "scale": 4,
+    "use_dict": true
+}

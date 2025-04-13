@@ -23,7 +23,7 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.6_2.zip")
+model = PPO.load("models/ppo_snake4.3_2.zip")
 print(model.policy)
 input("Press Enter to continue...")
 
@@ -53,7 +53,7 @@ for _ in range(num_episodes):
         paired_probs = [(action_map[i], round(prob, ndigits=3)) for i, prob in enumerate(action_probs)]
         print(f"Action Dist: {paired_probs}")
         env.render()
-        action, _ = model.predict(obs, deterministic=False)
+        action, _ = model.predict(obs, deterministic=True)
         print(f"Action: {action_map[int(action)]}")
         obs, reward, done,_, info = env.step(int(action))
         if done:
