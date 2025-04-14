@@ -12,7 +12,7 @@ config_dir = f"param_configs/{model_name}"
 
 param_list = []
 
-ent_schedule = get_schedule_fn(0.01)
+ent_schedule = get_schedule_fn(0.05)
 
 for filename in sorted(os.listdir(config_dir)):
     with open(os.path.join(config_dir, filename), "r") as f:
@@ -35,5 +35,5 @@ for i, params in enumerate(param_list):
 
     num_repeats = 4
     for j in range(num_repeats):
-        model.learn(1000000, progress_bar=True, tb_log_name=f"{model_name}_ent_large_arch_sched2{i}", reset_num_timesteps=False)
-        model.save(f'{model_name}_ent_large_arch_sched2{i}.zip')
+        model.learn(200000, progress_bar=True, tb_log_name=f"{model_name}_ent_large_arch_sched{i}", reset_num_timesteps=False)
+        model.save(f'{model_name}_ent_large_arch_sched{i}.zip')
