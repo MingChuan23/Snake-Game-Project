@@ -1,0 +1,18 @@
+{
+    "max_steps": 50,
+    "init_hp": 40,
+    "init_tail_size": 4,
+    "num_fruits": 1,
+    "gs": 10,
+    "perspective": "third",
+    "rewards": {
+        "SnakeState.OK": -2.32,
+        "SnakeState.ATE": 85.65,
+        "SnakeState.DED": -54.53,
+        "SnakeState.WON": 100
+    },
+    "num_snakes": 1,
+    "num_teams": 1,
+    "scale": 4,
+    "use_dist": 29.48
+}
