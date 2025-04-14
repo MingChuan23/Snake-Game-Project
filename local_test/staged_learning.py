@@ -5,7 +5,7 @@ from feature_extractor import CustomCNN
 import json
 import os
 
-model_name = "ppo_snake4.5_truncated"
+model_name = "ppo_snake4.8d_staged"
 log_dir = "logs"
 config_dir = f"param_configs/{model_name}"
 
@@ -27,10 +27,10 @@ for i, params in enumerate(param_list):
     # model.set_env(vec_env)
 
     if not model:
-        model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+        model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.00025)
         # model = A2C('CnnPolicy', vec_env, policy_kwargs=policy_kwargs, verbose=True, device='cuda', tensorboard_log=log_dir, n_steps=128, learning_rate=0.0003)
 
-    num_repeats = 5 if i < len(param_list) - 1 else 20
+    num_repeats = 20
     for j in range(num_repeats):
         model.learn(200000, progress_bar=True, tb_log_name=f"{model_name}_{i}", reset_num_timesteps=False)
         model.save(f'{model_name}_{i}.zip')
