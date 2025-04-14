@@ -292,10 +292,12 @@ class Env:
                 locs.remove(snake.head)
                 if snake.head in locs:
                     snake_states[i] = SnakeState.DED
-        
+
+            
+        # check for win in multi agent
         dead_snakes = [i for i, state in enumerate(snake_states[1:]) if state == SnakeState.DED]
-        for dead_snake in dead_snakes:
-            self.snakes.pop(dead_snake)
+        if len(dead_snakes) == 1:  # assume max 2 agents
+            snake_states[(dead_snakes[0]+1) % 2] = SnakeState.WON  # other snake wins
 
         # try:
         #     self.set_fruits()
@@ -310,7 +312,10 @@ class Env:
         if len(self.fruit_locations) == 0:
             snake_states[0] = SnakeState.WON
         self.time_steps += 1
-        return snake_states[0], self.snakes[0].hp, self.snakes[0].tail_size
+        if self.num_snakes == 1:
+            return snake_states[0], self.snakes[0].hp, self.snakes[0].tail_size
+        else:
+            return snake_states, [s.hp for s in self.snakes], [s.tail_size for s in self.snakes]
 
     @property
     def fruit_loc(self):

@@ -1,115 +1,126 @@
 import numpy as np
 import gymnasium as gym
-from snake_game import Env, SnakeState
 import cv2
-import itertools
+from snake_game import Env, SnakeState
 from pettingzoo.utils.env import ParallelEnv
 
-# Epsiode length
-# MAX_STEPS = 1000
 
-# # Initial game settings
-# INIT_HP = 100
-# INIT_TAIL_SIZE = 4
-# MAX_FRUITS = 1
-# PERSPECTIVE = 'third'
-
-# # Rewards
-# reward_map = {
-#     SnakeState.OK: -0.4,
-#     SnakeState.ATE: 20,
-#     SnakeState.DED: -40,
-#     SnakeState.WON: 1
-# }
-
-
-# Allows rewards to be converted from the json strings to enum values
-def parse_enum(enum, str_dict:dict):
+def parse_enum(enum, str_dict: dict):
     return {enum[key.split('.')[-1]]: value for key, value in str_dict.items()}
 
+
 class SnakeMultiEnv(ParallelEnv):
-    def __init__(self, max_steps=1000, init_hp=100, init_tail_size=4, num_fruits=1, gs=10, perspective='third', num_snakes=1, num_teams=1, render_mode='human', rewards={}):
-        super(SnakeMultiEnv, self).__init__()
-        self.env = Env(grid_size=gs, num_fruits=num_fruits, num_snakes=num_snakes, num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size, perspective=perspective)
-        
-        if perspective == 'third':
+    def __init__(
+        self,
+        max_steps=1000,
+        init_hp=100,
+        init_tail_size=4,
+        num_fruits=1,
+        gs=10,
+        perspective='third',
+        num_snakes=2,
+        num_teams=2,
+        render_mode='human',
+        rewards=None
+    ):
+        super().__init__()
+        self.env = Env(grid_size=gs, num_fruits=num_fruits, num_snakes=num_snakes,
+                       num_teams=num_teams, init_hp=init_hp, init_tail_size=init_tail_size,
+                       perspective=perspective)
+
+        self.perspective = perspective
+        if self.perspective == 'third':
             self.action_map = {
                 0: 'up',
                 1: 'down',
                 2: 'left',
                 3: 'right'
             }
-        elif perspective == 'first':
+        else:
             self.action_map = {
                 0: 'stay',
                 1: 'left',
                 2: 'right'
             }
 
-        self.agents = [f"snake_{i}" for i in range(num_snakes)]
-
-        self.reward_map = parse_enum(SnakeState, rewards)
-        self.max_steps = max_steps
         self.num_snakes = num_snakes
-        self.num_teams = num_teams
+        self.agents = [f"snake_{i}" for i in range(self.num_snakes)]
+        self.possible_agents = self.agents[:]
+
+        self.reward_map = parse_enum(SnakeState, rewards or {
+            "SnakeState.OK": -1.43,
+            "SnakeState.ATE": 37.37,
+            "SnakeState.DED": -68.2,
+            "SnakeState.WON": 100
+        })
+
+        self.max_steps = max_steps
         self.scale = 4
         self.render_mode = render_mode
         self.gs = gs
+        self.t = 0
 
-        self.action_space = gym.spaces.Discrete(len(self.action_map.keys()))
+        self.action_spaces = {
+            agent: gym.spaces.Discrete(len(self.action_map)) for agent in self.agents
+        }
 
-        # FOR CNN
         self.observation_spaces = {
-                    snake_id: gym.spaces.Box(
-                                low=0, high=255, shape=(self.gs*self.scale, self.gs*self.scale, 3),
-                                dtype=np.uint8)
-                    for snake_id in range(self.num_snakes)
-                    }
+            agent: gym.spaces.Box(
+                low=0,
+                high=255,
+                shape=(self.gs * self.scale, self.gs * self.scale, 3),
+                dtype=np.uint8
+            ) for agent in self.agents
+        }
 
     def _get_obs(self):
-        # FOR MULTIINPUT
+        return cv2.resize(
+            self.env.to_image(),
+            (self.gs * self.scale, self.gs * self.scale),
+            interpolation=cv2.INTER_NEAREST
+        )
 
-        # snakes = [(snake.hp, snake.direction.to_int(), snake.colour.value, snake.head.x, snake.head.y) for snake in self.env.snakes]
-        # snakes = list(itertools.chain(*snakes)) + [0, 0, 0] * (self.num_snakes - len(snakes))
-        # return {
-        #     'image': cv2.resize(self.env.to_image(), (self.gs*self.scale, self.gs*self.scale), interpolation=cv2.INTER_NEAREST),
-        #     # 'image': np.expand_dims(self.env.to_image().astype('float32'), -1),
-        #     'vector': snakes
-        # }
-
-        # FOR CNN
-        return cv2.resize(self.env.to_image(), (self.gs*self.scale, self.gs*self.scale), interpolation=cv2.INTER_NEAREST)
-
-    def _get_info(self):
-        return {}
-        
-    def reset(self, *, seed = None):
+    def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
-
         self.env.reset()
-        return self._get_obs(), self._get_info()
-    
-    def step(self, action):
-        actions = [action]
-        if self.num_snakes > 1:  #TODO: Add fixed agent move selection, currently random
-            for i in range(1, self.num_snakes):
-                actions.append(self.action_space.sample())
+        self.agents = self.possible_agents[:]
+        self.t = 0
 
-        snake_condition, hp, tail_size = self.env.update([self.action_map[a] for a in actions])
+        obs = {agent: self._get_obs() for agent in self.agents}
+        infos = {agent: {} for agent in self.agents}
+        return obs, infos
 
-        reward = self.reward_map[snake_condition]  / 100
+    def step(self, actions):
+        if not self.agents:
+            return {}, {}, {}, {}, {}
 
-        is_terminal = snake_condition in [SnakeState.DED, SnakeState.WON] 
-        truncated = self.env.time_steps > self.max_steps
+        self.t += 1
 
-        return self._get_obs(), reward, is_terminal, truncated, self._get_info()
-    
+        action_list = [self.action_map[actions[agent]] for agent in self.agents]
+        snake_conditions, _, _ = self.env.update(action_list)
+
+        obs = {agent: self._get_obs() for agent in self.agents}
+        rewards = {
+            agent: self.reward_map.get(cond, 0) / 100
+            for agent, cond in zip(self.agents, snake_conditions)
+        }
+        terminations = {
+            agent: cond in [SnakeState.DED, SnakeState.WON]
+            for agent, cond in zip(self.agents, snake_conditions)
+        }
+        truncations = {agent: self.t > self.max_steps for agent in self.agents}
+        infos = {agent: {} for agent in self.agents}
+
+        # Remove dead agents
+        self.agents = [agent for agent in self.agents if not terminations[agent]]
+
+        return obs, rewards, terminations, truncations, infos
+
     def render(self):
         im = self.env.to_image(gradation=True)
         if self.render_mode == 'human':
             cv2.imshow('Snake Game', cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST))
-            # print(self._get_obs()['vector'])
-            cv2.waitKey(0)
+            cv2.waitKey(1)
         elif self.render_mode == 'rgb_array':
             return cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST)
         elif self.render_mode == 'ansi':
@@ -117,4 +128,3 @@ class SnakeMultiEnv(ParallelEnv):
 
     def close(self):
         cv2.destroyAllWindows()
-
