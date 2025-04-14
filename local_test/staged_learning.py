@@ -18,7 +18,7 @@ for filename in sorted(os.listdir(config_dir)):
 policy_kwargs = dict(
     features_extractor_class=CustomCNN,
     features_extractor_kwargs=dict(features_dim=256),
-    # net_arch=dict(pi=[128, 64], vf=[256, 256, 128])
+    net_arch=dict(pi=[128, 64], vf=[256, 256, 128])
 )
 
 model = None
@@ -32,5 +32,5 @@ for i, params in enumerate(param_list):
 
     num_repeats = 40
     for j in range(num_repeats):
-        model.learn(200000, progress_bar=True, tb_log_name=f"{model_name}_ent_{i}", reset_num_timesteps=False)
-        model.save(f'{model_name}_ent_{i}.zip')
+        model.learn(200000, progress_bar=True, tb_log_name=f"{model_name}_ent_large_arch{i}", reset_num_timesteps=False)
+        model.save(f'{model_name}_ent_large_arch{i}.zip')
