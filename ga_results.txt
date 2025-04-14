@@ -9,3 +9,7 @@ Fitness:  -1.0030666666666668
 ==> slurm-585078.out <==
 Best solution2:  [ -2.5109445   98.22366302 -37.25266362  22.65047851]
 Fitness:  -0.9716
+
+Without using distance
+Best solution:  [ -1.43196891  37.36651429 -68.21249682]
+Fitness:  0.1776
