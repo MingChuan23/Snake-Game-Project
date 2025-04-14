@@ -19,11 +19,11 @@ action_map = {
             3: 'right'
         }
 
-with open("param_configs/eval.json", "r") as f:
+with open("param_configs/ga_params/a.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model
-model = PPO.load("models/ppo_snake4.7_single.zip")
+model = PPO.load("models/ppo_snake4.8_0.zip")
 print(model.policy)
 input("Press Enter to continue...")
 

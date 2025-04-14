@@ -26,7 +26,7 @@ def fitness_func(ga_instance, solution, solution_idx):
     }
 
     game_params['rewards'] = rewards
-    game_params['use_dist'] = solution[3] 
+    # game_params['use_dist'] = solution[3] 
     # Create the environment with the current reward parameters
     vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
 
@@ -56,10 +56,10 @@ with tqdm(total=num_generations) as pbar:
         fitness_func=fitness_func,
         num_genes=4,
         gene_space=[              # Define the reward weight parameters (values can vary)
-            {'low': -3, 'high': -1},  # Range for OK reward
+            {'low': -3, 'high': 0.5},  # Range for OK reward
             {'low': 10, 'high': 100},  # Range for ATE reward
             {'low': -100, 'high': -10},   # Range for DED reward
-            {'low': 20, 'high': 30},   # Range for distance reward
+            # {'low': 20, 'high': 30},   # Range for distance reward
 
         ],
         crossover_type="uniform",  # Crossover method
@@ -71,8 +71,8 @@ with tqdm(total=num_generations) as pbar:
     ga_instance.run()
 
 solution, solution_fitness, solution_idx  = ga_instance.best_solution()
-print("Best solution2: ", solution)
+print("Best solution: ", solution)
 print("Fitness: ", solution_fitness)
 
-with open("best_solution2.txt", "w") as f:
+with open("best_solution.txt", "w") as f:
     f.write(f"{solution}")
