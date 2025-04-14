@@ -54,7 +54,7 @@ with tqdm(total=num_generations) as pbar:
         sol_per_pop=10,           # Number of solutions in the population
         num_parents_mating=5,     # Number of parents to mate
         fitness_func=fitness_func,
-        num_genes=4,
+        num_genes=3,
         gene_space=[              # Define the reward weight parameters (values can vary)
             {'low': -3, 'high': 0.5},  # Range for OK reward
             {'low': 10, 'high': 100},  # Range for ATE reward
