@@ -30,8 +30,8 @@ policy_kwargs = dict(
 # print(model.get_parameters()['policy'].keys())
 # for index, config in enumerate(param_list):
 vec_env = make_vec_env(lambda: SnakeGameEnv(**game_params), n_envs=32)
-model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=False, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003)
+model = PPO('CnnPolicy', vec_env, policy_kwargs=policy_kwargs,verbose=False, device='cuda', tensorboard_log=log_dir, n_steps=128, batch_size=2048, learning_rate=0.0003, gae_lambda=0.99)
 
 for i in range(40):
-    model.learn(100000, progress_bar=True, tb_log_name=f"ppo_snake4.8_d", reset_num_timesteps=False)
-    model.save(f'ppo_snake4.8_d.zip')
+    model.learn(100000, progress_bar=True, tb_log_name=f"ppo_snake4.8_d2", reset_num_timesteps=False)
+    model.save(f'ppo_snake4.8_d2.zip')
