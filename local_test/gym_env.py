@@ -119,6 +119,7 @@ class SnakeGameEnv(gym.Env):
             return cv2.resize(im, (640, 640), interpolation=cv2.INTER_NEAREST)
         elif self.render_mode == 'ansi':
             print(self.env.to_string())
+            
 
     def close(self):
         cv2.destroyAllWindows()

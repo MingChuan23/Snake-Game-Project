@@ -5,6 +5,7 @@ import torch
 import json
 from stable_baselines3.common.monitor import Monitor
 from feature_extractor import CustomCNN
+import imageio
 
 # action_map = {
 #     0: 'stay',
@@ -23,20 +24,20 @@ with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
 # Load the trained model 
-model = PPO.load("temp/ppo_snake4.8d_staged_small_arch_long_2.zip")
+model = PPO.load("temp/ppo_snake4.8d_staged_ent01_large_arch2.zip")
 print(model.policy)
 input("Press Enter to continue...")
 
 
 # Create a new environment instance for evaluation
-env = Monitor(SnakeGameEnv(**game_params))
+env = (SnakeGameEnv(**game_params, render_mode='rgb_array'))
 
 # Evaluate the model
 # rew, std = evaluate_policy(model, env, n_eval_episodes=50, render=False, return_episode_rewards=False, warn=True, deterministic=False)
 
-
+frames = []
 # For getting the explicit actions probabilities, could be good for data and reporting
-num_episodes = 5
+num_episodes = 1
 all_action_probs = []
 
 for _ in range(num_episodes):
@@ -52,13 +53,16 @@ for _ in range(num_episodes):
 
         paired_probs = [(action_map[i], round(prob, ndigits=3)) for i, prob in enumerate(action_probs)]
         print(f"Action Dist: {paired_probs}")
-        env.render()
+        frame = env.render()
+        frames.append(frame)
         action, _ = model.predict(obs, deterministic=True)
         print(f"Action: {action_map[int(action)]}")
         obs, reward, done,_, info = env.step(int(action))
         if done:
             print(info)
             input("Press Enter to continue...")
+
+    imageio.mimsave("test.gif", frames, fps=30)
 
 
 
