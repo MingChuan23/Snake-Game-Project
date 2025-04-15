@@ -22,8 +22,8 @@ action_map = {
 with open("param_configs/eval.json", "r") as f:
     game_params = json.load(f)
 
-# Load the trained model
-model = PPO.load("models/ppo_snake4.8_d2.zip")
+# Load the trained model 
+model = PPO.load("temp/ppo_snake4.8d_staged_small_arch_long_2.zip")
 print(model.policy)
 input("Press Enter to continue...")
 
