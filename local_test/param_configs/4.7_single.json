@@ -13,6 +13,6 @@
     },
     "num_snakes": 1,
     "num_teams": 1,
-    "scale": 4,
+    "scale": 10,
     "use_dist": 0
 }
