@@ -1,6 +1,6 @@
 {
     "max_steps": 5000,
-    "init_hp": 100,
+    "init_hp": 1000,
     "init_tail_size": 4,
     "num_fruits": 1,
     "gs": 10,
@@ -13,5 +13,5 @@
     },
     "num_snakes": 1,
     "num_teams": 1,
-    "scale": 4
+    "scale": 10
 }
